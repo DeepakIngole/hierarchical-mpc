@@ -171,3 +171,24 @@ for i=1:HDMPC.Ns
     AgentData(i).J=[];
 end
 AgentData=coupling_alg(HDMPC,SubsystemMPC,SystemData,AgentData);
+
+%% ITERATION VISUALIZATION
+HDMPC.aaParam=struct('topology',...
+                     {[],[1],[],[];[1],[],[1],[];[],[1],[],[1];[],[],[1],[]},...
+                     'm',5,'droptol',1e-1,'beta',1,'AAstart',0,...
+                     'smax',3e1,'atol',1e-4,'rtol',1e-4,'verbose',0);
+
+for i=1:HDMPC.Ns
+    SystemData(i).x=-1e-1+2e-1*rand(SubsystemMPC(i).model.nx,1);
+    SystemData(i).w=-1e-1+2e-1*rand(1);
+    AgentData(i).vpred_sequences=...
+        zeros(length(SubsystemMPC(i).param.vIndex),...
+        SubsystemMPC(i).model.nv);
+    AgentData(i).ustar_sequences=[];
+    AgentData(i).xpred_sequences=[];
+    AgentData(i).ypred_sequences=[];
+    AgentData(i).zpred_sequences=[];
+    AgentData(i).J=[];
+    AgentData(i).yd=-1e-1+2e-1*rand(1);
+end
+AgentData=coupling_alg(HDMPC,SubsystemMPC,SystemData,AgentData);

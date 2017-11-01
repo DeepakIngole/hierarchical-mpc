@@ -31,8 +31,8 @@ end
 
 % DIAGNOSIS
 if verbose
-%     custom_plot(err(:,2),'Residual versus Iteration','',...
-%         'log',[1 smax],[atol/10 Inf],'Iteration','Residual',0,1,.0001);
+    custom_plot(err(:,2),'Residual versus Iteration','',...
+        'log',[1 smax],[atol/10 Inf],'Iteration','Residual',0,1,.0001);
     for i=1:HDMPC.Ns
         custom_plot(deparametrize(SubsystemMPC(i),AgentData(i).ustar_sequences,'u'),...
             ['System control ' num2str(i)],'System control',...
@@ -68,3 +68,15 @@ for i=1:HDMPC.Ns
         end
     end
 end
+
+% for i=1:HDMPC.Ns
+%     custom_plot(deparametrize(SubsystemMPC(i),AgentData(i).zpred_sequences,'z'),...
+%         ['System output coupling ' num2str(i)],'System output coupling',...
+%         'lin',[-Inf Inf],[-Inf Inf],'Prediction horizon','System output coupling',0,0,0.01);
+% end
+% 
+% for i=1:HDMPC.Ns
+% 	[~,z{i}]=fig2dat(['System output coupling ' num2str(i)]);
+% end
+
+
