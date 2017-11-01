@@ -1,0 +1,2 @@
+LIBRARY “nlopt_optimize_mex.mexw64”
+EXPORTS mexFunction   
