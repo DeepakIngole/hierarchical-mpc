@@ -43,11 +43,11 @@ end
 
 save aa_profiles_opt u y z SystemData AgentData;
 
-%% CONVERGENCE
+%% CONVERGENCE SPEED
 HDMPC.aaParam=struct('topology',...
                      {[],[1],[],[];[1],[],[1],[];[],[1],[],[1];[],[],[1],[]},...
                      'm',5,'droptol',1e-1,'beta',1,'AAstart',0,...
-                     'smax',3e1,'atol',1e-4,'rtol',1e-4,'verbose',1);
+                     'smax',5e1,'atol',1e-4,'rtol',1e-4,'verbose',1);
 for k=1:100
     for i=1:HDMPC.Ns
         SystemData(i).x=-1e-1+2e-1*rand(SubsystemMPC(i).model.nx,1);

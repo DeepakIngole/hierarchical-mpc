@@ -5,7 +5,8 @@ load('plant_model');
 uBound=[.5,.65,.65,.55];
 
 %% SETUP
-areaIndex=1;
+areaIndex=4;
+Np=15;
 
 model=model(areaIndex);
 
@@ -17,7 +18,7 @@ mpc.cstr.u.max=+uBound(areaIndex);
 mpc.cstr.c.min=-.1;
 mpc.cstr.c.max=+.1;
 
-mpc.param.Np=15;
+mpc.param.Np=Np;
 mpc.param.Wy=diag([1]);
 mpc.param.Wu=diag([2e-2]);
 mpc.param.Wc=diag([1e6]);

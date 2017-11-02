@@ -69,14 +69,4 @@ for i=1:HDMPC.Ns
     end
 end
 
-% for i=1:HDMPC.Ns
-%     custom_plot(deparametrize(SubsystemMPC(i),AgentData(i).zpred_sequences,'z'),...
-%         ['System output coupling ' num2str(i)],'System output coupling',...
-%         'lin',[-Inf Inf],[-Inf Inf],'Prediction horizon','System output coupling',0,0,0.01);
-% end
-% 
-% for i=1:HDMPC.Ns
-% 	[~,z{i}]=fig2dat(['System output coupling ' num2str(i)]);
-% end
-
 
