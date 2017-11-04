@@ -1,8 +1,8 @@
 function mpc=mpc_param(mpc)
 
 % SET POINT
-mpc.param.ydPi=...
-    parametrize(mpc.model.ny,mpc.param.Np,deal(1));
+mpc.param.xdPi=...
+    parametrize(mpc.model.nx,mpc.param.Np,deal(1));
 mpc.param.udPi=...
     parametrize(mpc.model.nu,mpc.param.Np,deal(1));
 

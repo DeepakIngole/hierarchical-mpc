@@ -19,7 +19,7 @@ mpc.cstr.c.min=-.1;
 mpc.cstr.c.max=+.1;
 
 mpc.param.Np=Np;
-mpc.param.Wy=diag([1]);
+mpc.param.Wx=diag([1 2e-5 2e-5 2e-2]);
 mpc.param.Wu=diag([2e-2]);
 mpc.param.Wc=diag([1e6]);
 

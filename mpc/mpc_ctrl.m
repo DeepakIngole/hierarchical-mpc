@@ -9,13 +9,14 @@ vpred_tilde=reshape(AgentData.vpred_sequences',[],1);
 yd=AgentData.yd;
 
 % STEADY-STATE TARGET OPTIMIZATION
+xd=[0;yd;w;w];
 ud=w;
 
 % UPDATE & SOLVE QP
 lb=mpc.qp.lb;ub=mpc.qp.ub;
 H=mpc.qp.H;
-f=[mpc.qp.Fx mpc.qp.Fw mpc.qp.Fv mpc.qp.Fyd mpc.qp.Fud]*...
-  [x;w;vpred_tilde;yd;ud];
+f=[mpc.qp.Fx mpc.qp.Fw mpc.qp.Fv mpc.qp.Fxd mpc.qp.Fud]*...
+  [x;w;vpred_tilde;xd;ud];
 A=mpc.qp.A;
 b=mpc.qp.b+...
   [mpc.qp.bx mpc.qp.bw mpc.qp.bv]*[x;w;vpred_tilde];
@@ -44,8 +45,8 @@ AgentData.ypred_sequences=reshape(ypred_tilde,mpc.model.ny,[])';
 AgentData.zpred_sequences=reshape(zpred_tilde,mpc.model.nz,[])';
 
 % COST
-AgentData.J=ypred_tilde'*mpc.qp.Wy*ypred_tilde+...
-            ustar_tilde'*mpc.qp.Wu*ustar_tilde+...
+AgentData.J=(xpred_tilde-repmat([0;0;w;w],mpc.param.Np,1))'*mpc.qp.Wx*(xpred_tilde-repmat([0;0;w;w],mpc.param.Np,1))+...
+            (ustar_tilde-repmat(w,mpc.param.Np,1))'*mpc.qp.Wu*(ustar_tilde-repmat(w,mpc.param.Np,1))+...
             cstar_tilde'*mpc.param.Wc*cstar_tilde;
 
 

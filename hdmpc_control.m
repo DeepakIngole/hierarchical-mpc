@@ -31,9 +31,13 @@ for i=1:HDMPC.Ns
     AgentData(i).J=0;
     AgentData(i).yd=0;
 end
+
+N=5e1;
 tStart=tic;
-[~,~,nJ,AgentData]=master_optimize(HDMPC,SubsystemMPC,SystemData,AgentData);
-tElapse=toc(tStart);
+for k=1:N
+    [~,~,nJ,AgentData]=master_optimize(HDMPC,SubsystemMPC,SystemData,AgentData);
+end
+tElapse=toc(tStart)/N;
 
 % OUTPUT PARSING
 out=[AgentData(1).ustar_sequences(1,:)';
