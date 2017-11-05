@@ -9,7 +9,7 @@ vpred_tilde=reshape(AgentData.vpred_sequences',[],1);
 yd=AgentData.yd;
 
 % STEADY-STATE TARGET OPTIMIZATION
-xd=[0;yd;w;w];
+xd=[yd;0;w;w];
 ud=w;
 
 % UPDATE & SOLVE QP

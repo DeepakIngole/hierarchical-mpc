@@ -1,4 +1,4 @@
-function out=hdmpc_control(HDMPC,SubsystemMPC,in)
+function out=dempc_control(SubsystemMPC,in)
    
 % INPUT PARSING
 inSel=cumsum([0 ... 
@@ -20,24 +20,18 @@ SystemData(3).w=in(inSel(7)+1:inSel(8));
 SystemData(4).w=in(inSel(8)+1:end);
 
 % HDMPC
-for i=1:HDMPC.Ns
+for i=1:numel(SubsystemMPC)
     AgentData(i).vpred_sequences=...
         zeros(length(SubsystemMPC(i).param.vIndex),...
         SubsystemMPC(i).model.nv);
+    AgentData(i).yd=0;
     AgentData(i).ustar_sequences=0;
     AgentData(i).xpred_sequences=0;
     AgentData(i).ypred_sequences=0;
     AgentData(i).zpred_sequences=0;
     AgentData(i).J=0;
-    AgentData(i).yd=0;
+    AgentData(i)=mpc_ctrl(SubsystemMPC(i),SystemData(i),AgentData(i));
 end
-
-N=1;
-tStart=tic;
-for k=1:N
-    [~,~,nJ,AgentData]=master_optimize(HDMPC,SubsystemMPC,SystemData,AgentData);
-end
-tElapse=toc(tStart)/N;
 
 % OUTPUT PARSING
 out=[AgentData(1).ustar_sequences(1,:)';
@@ -48,8 +42,8 @@ out=[AgentData(1).ustar_sequences(1,:)';
      AgentData(2).yd;
      AgentData(3).yd;
      AgentData(4).yd;
-     tElapse;
-     nJ];
+     0;
+     0];
 
     
     
