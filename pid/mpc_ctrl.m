@@ -1,4 +1,4 @@
-function AgentData=pid_ctrl(mpc,SystemData,AgentData)
+function AgentData=mpc_ctrl(mpc,SystemData,AgentData)
 
 % PARSING INPUT
 x=SystemData.x;
@@ -7,7 +7,7 @@ vpred_sequences=AgentData.vpred_sequences;
 yd=AgentData.yd;
 
 % PI CONTROL SIMULATION
-Kp=10;Ki=0;
+Kp=10;Ki=1;
 
 xpred_sequences(1,:)=x';
 ypred_sequences(1,:)=xpred_sequences(1,2);

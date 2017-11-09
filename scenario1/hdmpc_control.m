@@ -32,7 +32,7 @@ for i=1:HDMPC.Ns
     AgentData(i).yd=0;
 end
 
-N=3e1;
+N=1;
 tStart=tic;
 for k=1:N
     [~,~,nJ,AgentData]=master_optimize(HDMPC,SubsystemMPC,SystemData,AgentData);
