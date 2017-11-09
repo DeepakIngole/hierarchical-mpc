@@ -17,7 +17,7 @@ HDMPC.nlpParam=struct('algorithm',NLOPT_LN_BOBYQA,...
 % SIMULATION
 Ts=1e-3;
 open('hdmpc_pns.mdl');
-mode=-1;
+mode=1;
 if mode<0
     set_param('hdmpc_pns/HDMPC','commented','on');
     set_param('hdmpc_pns/From Workspace2','commented','off');

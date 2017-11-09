@@ -5,8 +5,8 @@ nx=mpc.model.nx;nw=mpc.model.nw;nu=mpc.model.nu;nv=mpc.model.nv;
 % PARSING INPUT
 x=SystemData.x;
 w=SystemData.w;
-vpred_tilde=0*reshape(AgentData.vpred_sequences',[],1);
-yd=0*AgentData.yd;
+vpred_tilde=reshape(AgentData.vpred_sequences',[],1);
+yd=AgentData.yd;
 
 % STEADY-STATE TARGET OPTIMIZATION
 xd=[0;yd;w;w];

@@ -17,7 +17,7 @@ HDMPC.nlpParam=struct('algorithm',NLOPT_LN_BOBYQA,...
 % SIMULATION
 Ts=1e-3;
 open('hdmpc_pns.mdl');
-mode=-1;
+mode=1;
 if mode<0
     set_param('hdmpc_pns/HDMPC','commented','on');
     set_param('hdmpc_pns/From Workspace2','commented','off');
@@ -48,7 +48,7 @@ end
 if mode<0
     save cmpc_valid_s2 t u deltaPref deltaFrequency deltaPtie12 deltaPtie23 deltaPtie34;
 else
-    save dmpc_valid_s2 t r u nJ tHDMPC deltaPref deltaFrequency deltaPtie12 deltaPtie23 deltaPtie34;
+    save dempc_valid_s2 t r u nJ tHDMPC deltaPref deltaFrequency deltaPtie12 deltaPtie23 deltaPtie34;
 end
 
 %% EVALUATION
@@ -70,4 +70,29 @@ u=u.signals.values(2:end,:);
 
 Eta=eta_criterion(x',xO',u',uO',Q,R)
 Phi=phi_criterion(x')
+
+%% CONSTRAINT ASSESSMENT
+% SIMULATION
+Ts=1e-3;
+open('hdmpc_pns_cstr.mdl');
+sim('hdmpc_pns_cstr.mdl');
+
+t=x.time;
+x=x.signals.values;
+u=u.signals.values;
+w=w.signals.values;
+deltaPref=deltaPref.signals.values;
+deltaFrequency=deltaFrequency.signals.values;
+deltaPtie12=deltaPtie12.signals.values;
+deltaPtie23=deltaPtie23.signals.values;
+deltaPtie34=deltaPtie34.signals.values;
+deltaPtie25=deltaPtie25.signals.values;
+deltaPtie45=deltaPtie45.signals.values;
+
+r=r.signals.values;
+nJ=nJ.signals.values;
+tHDMPC=tHDMPC.signals.values;
+
+% STORAGE
+save dempc_valid_cstr t r u w x nJ tHDMPC deltaPref deltaFrequency deltaPtie12 deltaPtie23 deltaPtie34 deltaPtie25 deltaPtie45;
 
