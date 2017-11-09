@@ -1,15 +1,11 @@
-function r=phi_criterion(x,scenario)
+function r=phi_criterion(x)
   Tsim=evalin('base','Tsim;');
   Ts=evalin('base','Ts;');
   % number of states of subsystems
   r=0;
   M=size(x,1)/4; %4 states for each subsystem
   P=getP();
-  if scenario~=3
-    P=P(:,1:M);
-  else
-    P=P(:,[1 2 3 5]);
-  end
+  P=P(:,1:M);
   for k=1:Tsim
     for i=1:size(P,1)
       deltaTeta_i=x(1+(i-1)*4,k);

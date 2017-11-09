@@ -1,7 +1,7 @@
 clear mex;clear all;close all;clc;
 addpath(genpath(pwd));
 load agent;
-load dataSim;
+load dataValid;
 
 HDMPC.Ns=5;
 HDMPC.aaParam=struct('topology',...
@@ -10,13 +10,14 @@ HDMPC.aaParam=struct('topology',...
                      'smax',1e2,'atol',1e-6,'rtol',1e-6,'verbose',0);
 HDMPC.nlpParam=struct('algorithm',NLOPT_LN_BOBYQA,...
                      'pi',[1;1;1;1;1],'rmin',-1e-1*ones(5,1),'rmax',1e-1*ones(5,1),...
-                     'kmax',1e4,'axtol',1e-3*ones(5,1),'aftol',1e-4,...
+                     'kmax',1e4,'axtol',1e-5*ones(5,1),'aftol',1e-5,...
                      'initstep',1e-2*ones(5,1),'verbose',0);
 
 %% SCENARIO EVALUATION
 % SIMULATION
+Ts=1e-3;
 open('hdmpc_pns.mdl');
-mode=1;
+mode=-1;
 if mode<0
     set_param('hdmpc_pns/HDMPC','commented','on');
     set_param('hdmpc_pns/From Workspace2','commented','off');
@@ -45,9 +46,28 @@ end
 
 % STORAGE
 if mode<0
-    save pns_cmpc_valid t u deltaPref deltaFrequency deltaPtie12 deltaPtie23 deltaPtie34;
+    save cmpc_valid_s2 t u deltaPref deltaFrequency deltaPtie12 deltaPtie23 deltaPtie34;
 else
-    save pns_dempc_valid t r u nJ tHDMPC deltaPref deltaFrequency deltaPtie12 deltaPtie23 deltaPtie34;
+    save dmpc_valid_s2 t r u nJ tHDMPC deltaPref deltaFrequency deltaPtie12 deltaPtie23 deltaPtie34;
 end
 
+%% EVALUATION
+P12=4;P23=2;P34=2;P25=3;P45=3;
+Ts=1;
+open('hdmpc_pns.mdl');
+mode=1;
+if mode<0
+    set_param('hdmpc_pns/HDMPC','commented','on');
+    set_param('hdmpc_pns/From Workspace2','commented','off');
+else
+    set_param('hdmpc_pns/HDMPC','commented','off');
+    set_param('hdmpc_pns/From Workspace2','commented','on');
+end
+sim('hdmpc_pns.mdl');
+
+x=x.signals.values(2:end,:);
+u=u.signals.values(2:end,:);
+
+Eta=eta_criterion(x',xO',u',uO',Q,R)
+Phi=phi_criterion(x')
 
