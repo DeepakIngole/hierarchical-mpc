@@ -1,8 +1,0 @@
-clear all;close all;clc;
-for i=1:10
-    load(['aa_convergence_s1_beta' num2str(i*10)]);
-    mean_iter(i)=mean(iter);
-    beta(i)=i/100;
-end
-
-plot(b)
