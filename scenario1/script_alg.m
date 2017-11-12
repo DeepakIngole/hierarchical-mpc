@@ -3,7 +3,37 @@ addpath(genpath(pwd));
 load agent;
 HDMPC.Ns=4;
 
-%% AA SPEED
+%% IMPACT OF RELAXATION PARAMETER
+close all;
+HDMPC.aaParam=struct('topology',...
+                     {[],[1],[],[];[1],[],[1],[];[],[1],[],[1];[],[],[1],[]},...
+                     'm',5,'droptol',1e-1,'beta',9e-1,'AAstart',0,...
+                     'smax',2e2,'atol',1e-4,'rtol',1e-4,'verbose',1);
+for k=1:100
+    for i=1:HDMPC.Ns
+        SystemData(i).x=-1e-1+2e-1*rand(SubsystemMPC(i).model.nx,1);
+        SystemData(i).w=-1e-1+2e-1*rand(1);
+        AgentData(i).vpred_sequences=...
+            zeros(length(SubsystemMPC(i).param.vIndex),...
+            SubsystemMPC(i).model.nv);
+        AgentData(i).ustar_sequences=[];
+        AgentData(i).xpred_sequences=[];
+        AgentData(i).ypred_sequences=[];
+        AgentData(i).zpred_sequences=[];
+        AgentData(i).J=[];
+        AgentData(i).yd=-1e-1+2e-1*rand(1);
+    end
+    AgentData=coupling_alg(HDMPC,SubsystemMPC,SystemData,AgentData);
+end
+
+[xData,yData]=fig2dat('Residual versus Iteration');
+for i=1:100
+    iter(i)=numel(xData{i});
+end
+err=yData;
+save(['aa_convergence_s1_beta' num2str(100*HDMPC.aaParam(1).beta)],'err','iter');
+
+%% IMPACT OF PREDICTION HORIZON
 HDMPC.aaParam=struct('topology',...
                      {[],[1],[],[];[1],[],[1],[];[],[1],[],[1];[],[],[1],[]},...
                      'm',5,'droptol',1e-1,'beta',1,'AAstart',0,...

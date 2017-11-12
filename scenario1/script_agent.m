@@ -5,7 +5,7 @@ load('plant_model');
 uBound=[.5,.65,.65,.55];
 
 %% SETUP
-areaIndex=4;
+areaIndex=1;
 Np=15;
 
 model=model(areaIndex);
